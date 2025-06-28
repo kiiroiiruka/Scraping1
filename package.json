@@ -10,7 +10,7 @@
     "lint": "eslint --cache .",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "electron-vite build",
+    "build": "electron-vite build && electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
@@ -39,5 +39,27 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "vite": "^6.2.6"
+  },
+  "build": {
+    "appId": "com.example.myapp",
+    "productName": "MyTempElectronApp",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "sign": false
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "icon": "assets/icon.png"
   }
 }
