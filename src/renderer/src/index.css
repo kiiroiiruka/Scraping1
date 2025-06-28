@@ -1,0 +1,18 @@
+/* src/index.css */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* ボックスモデルを一貫させる */
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; /* フォントを統一 */
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
