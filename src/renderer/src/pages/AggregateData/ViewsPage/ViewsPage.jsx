@@ -15,7 +15,7 @@ const ViewsPage = () => {
   return (
     <div className={styles.container}>
       {/* Headerコンポーネントを追加 */}
-      <Header title="視聴回数 (views) ランキング" />
+      <Header title="視聴した動画の再生回数ランキング" />
 
       {/* ランキング表示 */}
       <div className={styles.rankings}>

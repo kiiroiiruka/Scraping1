@@ -56,7 +56,7 @@ const TagsPage = () => {
 
   return (
     <div className={styles.container}>
-      <Header title="タグ別視聴回数 (tags) グラフ" />
+      <Header title="タグ別視聴回数グラフ" />
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         {/* 円グラフ部分 */}

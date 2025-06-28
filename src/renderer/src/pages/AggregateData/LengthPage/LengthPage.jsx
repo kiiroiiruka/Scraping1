@@ -37,7 +37,7 @@ const LengthPage = () => {
   return (
     <div className={styles.container}>
       {/* Headerコンポーネントを追加 */}
-      <Header title="動画の長さ (length) ランキング" />
+      <Header title="視聴した動画の長さランキング" />
 
       {/* ランキング表示 */}
       <div className={styles.rankings}>
