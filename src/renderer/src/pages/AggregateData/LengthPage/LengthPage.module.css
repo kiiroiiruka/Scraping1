@@ -1,0 +1,39 @@
+/* LengthPage.module.css に追加すると見栄えが良くなります */
+
+.container {
+  padding: 20px;
+}
+
+.rankings {
+  margin-top: 40px;
+}
+
+.rankings h2 {
+  margin-bottom: 10px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.rankItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.rankNumber {
+  font-weight: bold;
+  width: 30px;
+}
+
+.rankTitle {
+  flex-grow: 1;
+}
+
+.rankPublished {
+  color: #888;
+  font-size: 0.9em;
+}

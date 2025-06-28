@@ -1,0 +1,41 @@
+.container {
+  padding: 20px;
+}
+
+.rankings {
+  margin-top: 20px;
+}
+
+.rankings ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.rankItem {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 18px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.rankItem:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.rankNumber {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 30px;
+}
+
+.rankTitle {
+  flex-grow: 1;
+}
+
+.rankViews {
+  font-style: italic;
+  color: #666;
+}

@@ -1,0 +1,18 @@
+/* BuwattoButton.module.css */
+.button {
+  width: 250px;
+  height:200px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.button:hover {
+  transform: scale(1.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
