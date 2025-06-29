@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
+import { spawn } from 'child_process'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
@@ -51,6 +52,45 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  // exeファイル起動のIPC設定
+  ipcMain.handle('launch-exe', async () => {
+    try {
+      // ここでexeファイルのパスを指定します（適宜変更してください）
+      const exePath = join(__dirname, '../../selenium/get_data.exe') // 相対パスでexeファイルを指定
+      
+      const child = spawn(exePath, [], {
+        detached: true,
+        stdio: 'ignore'
+      })
+      
+      child.unref()
+      
+      return { success: true, message: 'exeファイルを起動しました' }
+    } catch (error) {
+      console.error('exeファイル起動エラー:', error)
+      return { success: false, message: `起動に失敗しました: ${error.message}` }
+    }
+  })
+
+  // ユーザーデータセット用exeファイル起動のIPC設定
+  ipcMain.handle('set-userdata', async () => {
+    try {
+      const setexePath = join(__dirname, '../../selenium/set_userdata.exe') // 相対パスでexeファイルを指定
+      
+      const child = spawn(setexePath, [], {
+        detached: true,
+        stdio: 'ignore'
+      })
+      
+      child.unref()
+      
+      return { success: true, message: 'ユーザーデータセット用exeファイルを起動しました' }
+    } catch (error) {
+      console.error('ユーザーデータセット用exeファイル起動エラー:', error)
+      return { success: false, message: `起動に失敗しました: ${error.message}` }
+    }
+  })
 
   createWindow()
 

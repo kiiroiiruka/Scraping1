@@ -29,7 +29,24 @@
   margin-right: auto;
 }
 
+.toolGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* 少し狭めに */
+  margin-top: 20px;
+  justify-items: center;
+  max-width: 400px; /* 幅を狭く */
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .buttonContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toolButtonContent {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,6 +56,12 @@
   width: 60px;
   height: 60px;
   margin-bottom: 10px;
+}
+
+.toolImage {
+  width: 40px; /* 小さく */
+  height: 40px; /* 小さく */
+  margin-bottom: 8px;
 }
 
 span {
