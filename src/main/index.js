@@ -56,20 +56,67 @@ app.whenReady().then(() => {
   // exeファイル起動のIPC設定
   ipcMain.handle('launch-exe', async () => {
     try {
-      // ここでexeファイルのパスを指定します（適宜変更してください）
-      const exePath = join(__dirname, '../../selenium/get_data.exe') // 相対パスでexeファイルを指定
+      // 1つ目: get_data.exe を実行
+      const getDataPath = join(__dirname, '../../selenium/get_data.exe')
       
-      const child = spawn(exePath, [], {
-        detached: true,
-        stdio: 'ignore'
-      })
+      console.log('get_data.exe を起動中...')
       
-      child.unref()
+      // プロミスでプロセスの終了を待機
+      const runGetData = () => {
+        return new Promise((resolve, reject) => {
+          const child = spawn(getDataPath, [], {
+            stdio: 'pipe' // 出力を取得できるように
+          })
+          
+          child.on('close', (code) => {
+            if (code === 0) {
+              console.log('get_data.exe が正常に終了しました')
+              resolve()
+            } else {
+              reject(new Error(`get_data.exe がエラーコード ${code} で終了しました`))
+            }
+          })
+          
+          child.on('error', (error) => {
+            reject(error)
+          })
+        })
+      }
       
-      return { success: true, message: 'exeファイルを起動しました' }
+      // 2つ目: combined_processor.exe を実行
+      const runCombinedProcessor = () => {
+        return new Promise((resolve, reject) => {
+          const combinedProcessorPath = join(__dirname, '../../selenium/combined_processor.exe')
+          
+          console.log('combined_processor.exe を起動中...')
+          
+          const child = spawn(combinedProcessorPath, [], {
+            stdio: 'pipe'
+          })
+          
+          child.on('close', (code) => {
+            if (code === 0) {
+              console.log('combined_processor.exe が正常に終了しました')
+              resolve()
+            } else {
+              reject(new Error(`combined_processor.exe がエラーコード ${code} で終了しました`))
+            }
+          })
+          
+          child.on('error', (error) => {
+            reject(error)
+          })
+        })
+      }
+      
+      // 順次実行
+      await runGetData()
+      await runCombinedProcessor()
+      
+      return { success: true, message: 'すべてのexeファイルが正常に実行されました' }
     } catch (error) {
-      console.error('exeファイル起動エラー:', error)
-      return { success: false, message: `起動に失敗しました: ${error.message}` }
+      console.error('exeファイル実行エラー:', error)
+      return { success: false, message: `実行に失敗しました: ${error.message}` }
     }
   })
 
