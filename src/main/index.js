@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
+import { spawn } from 'child_process'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
@@ -51,6 +52,92 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  // exeファイル起動のIPC設定
+  ipcMain.handle('launch-exe', async () => {
+    try {
+      // 1つ目: get_data.exe を実行
+      const getDataPath = join(__dirname, '../../selenium/get_data.exe')
+      
+      console.log('get_data.exe を起動中...')
+      
+      // プロミスでプロセスの終了を待機
+      const runGetData = () => {
+        return new Promise((resolve, reject) => {
+          const child = spawn(getDataPath, [], {
+            stdio: 'pipe' // 出力を取得できるように
+          })
+          
+          child.on('close', (code) => {
+            if (code === 0) {
+              console.log('get_data.exe が正常に終了しました')
+              resolve()
+            } else {
+              reject(new Error(`get_data.exe がエラーコード ${code} で終了しました`))
+            }
+          })
+          
+          child.on('error', (error) => {
+            reject(error)
+          })
+        })
+      }
+      
+      // 2つ目: combined_processor.exe を実行
+      const runCombinedProcessor = () => {
+        return new Promise((resolve, reject) => {
+          const combinedProcessorPath = join(__dirname, '../../selenium/combined_processor.exe')
+          
+          console.log('combined_processor.exe を起動中...')
+          
+          const child = spawn(combinedProcessorPath, [], {
+            stdio: 'pipe'
+          })
+          
+          child.on('close', (code) => {
+            if (code === 0) {
+              console.log('combined_processor.exe が正常に終了しました')
+              resolve()
+            } else {
+              reject(new Error(`combined_processor.exe がエラーコード ${code} で終了しました`))
+            }
+          })
+          
+          child.on('error', (error) => {
+            reject(error)
+          })
+        })
+      }
+      
+      // 順次実行
+      await runGetData()
+      await runCombinedProcessor()
+      
+      return { success: true, message: 'すべてのexeファイルが正常に実行されました' }
+    } catch (error) {
+      console.error('exeファイル実行エラー:', error)
+      return { success: false, message: `実行に失敗しました: ${error.message}` }
+    }
+  })
+
+  // ユーザーデータセット用exeファイル起動のIPC設定
+  ipcMain.handle('set-userdata', async () => {
+    try {
+      const setexePath = join(__dirname, '../../selenium/set_userdata.exe') // 相対パスでexeファイルを指定
+      
+      const child = spawn(setexePath, [], {
+        detached: true,
+        stdio: 'ignore'
+      })
+      
+      child.unref()
+      
+      return { success: true, message: 'ユーザーデータセット用exeファイルを起動しました' }
+    } catch (error) {
+      console.error('ユーザーデータセット用exeファイル起動エラー:', error)
+      return { success: false, message: `起動に失敗しました: ${error.message}` }
+    }
+  })
 
   createWindow()
 

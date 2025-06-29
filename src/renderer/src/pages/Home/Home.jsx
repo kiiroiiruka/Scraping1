@@ -18,6 +18,40 @@ function Home() {
     { label: 'タグごとの分布\nグラフ', path: '/TagsPage', image: tagsImg },
   ];
 
+  const handleLaunchExe = async () => {
+    try {
+      // メインプロセスにexeファイル起動を要求
+      const result = await window.electronAPI.launchExe();
+      if (result.success) {
+        console.log(result.message);
+        // 成功した場合の処理（例：通知表示など）
+      } else {
+        console.error(result.message);
+        alert(`エラー: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('exeファイルの起動に失敗しました:', error);
+      alert('exeファイルの起動に失敗しました');
+    }
+  };
+
+  const handleSetUserdata = async () => {
+    try {
+      // メインプロセスにユーザーデータセット用exeファイル起動を要求
+      const result = await window.electronAPI.setUserdata();
+      if (result.success) {
+        console.log(result.message);
+        // 成功した場合の処理（例：通知表示など）
+      } else {
+        console.error(result.message);
+        alert(`エラー: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('ユーザーデータセット用exeファイルの起動に失敗しました:', error);
+      alert('ユーザーデータセット用exeファイルの起動に失敗しました');
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>後で見るリスト</h1>
@@ -33,6 +67,22 @@ function Home() {
             </div>
           </BuwattoButton>
         ))}
+      </div>
+
+      <h2 className={styles.subtitle}>🔧 ツール起動</h2>
+      <div className={styles.toolGrid}>
+        <BuwattoButton onClick={handleLaunchExe} variant="tool">
+          <div className={styles.toolButtonContent}>
+            <img src={viewsImg} alt="情報を取得する" className={styles.toolImage} />
+            <span>情報を取得する</span>
+          </div>
+        </BuwattoButton>
+        <BuwattoButton onClick={handleSetUserdata} variant="tool">
+          <div className={styles.toolButtonContent}>
+            <img src={tagsImg} alt="ユーザーデータをセットする" className={styles.toolImage} />
+            <span>ユーザーデータを\nセットする</span>
+          </div>
+        </BuwattoButton>
       </div>
     </div>
   );

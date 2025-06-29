@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import styles from './BuwattoButton.module.css';
 
-const BuwattoButton = ({ children, onClick }) => {
+const BuwattoButton = ({ children, onClick, variant = 'default' }) => {
   const handleClick = () => {
     if (onClick) {
       onClick();
@@ -11,8 +11,10 @@ const BuwattoButton = ({ children, onClick }) => {
     }
   };
 
+  const buttonClass = variant === 'tool' ? `${styles.button} ${styles.toolButton}` : styles.button;
+
   return (
-    <button className={styles.button} onClick={handleClick}>
+    <button className={buttonClass} onClick={handleClick}>
       {children}
     </button>
   );
@@ -21,7 +23,8 @@ const BuwattoButton = ({ children, onClick }) => {
 // ✅ props の型を定義してESLint警告を解消
 BuwattoButton.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  variant: PropTypes.oneOf(['default', 'tool'])
 };
 
 export default BuwattoButton;
