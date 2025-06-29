@@ -4,7 +4,6 @@ import LengthPage from './pages/AggregateData/LengthPage/LengthPage'
 import PublishedPage from './pages/AggregateData/PublishedPage/PublishedPage'
 import TagsPage from './pages/AggregateData/TagsPage/TagsPage'
 import ViewsPage from './pages/AggregateData/ViewsPage/ViewsPage'
-
 function App() {
   return (
     <Router>

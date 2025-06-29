@@ -21,6 +21,7 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
     "electron-updater": "^6.3.9",
+    "firebase": "^11.9.1",
     "react-router-dom": "^7.6.3",
     "recharts": "^3.0.2"
   },
